@@ -1,20 +1,20 @@
-# Angular 2+ with Rails and Webpacker.
+# Angular 2+ with Rails and Webpacker
 
 I love Rails, I think it’s the best web development platform, at least from a developer point of view (DX).  
 But it is not perfect. One of its major disadvantages is when you try to use it with one of  new modern JavaScript framework (React, Angular, Vue…).  
 There is no “Rails” way to do it. You need to start messing with configurations and settings, all the things that Rails trying to avoid.
-Writing a web application in Rails traditional way would be using ActiveViews, and add a little JQuery when you need JavaScript in the client. But when You want to right a single page application (SPA), it’s just not good enough.
+Writing a web application in Rails traditional way would be using ActiveViews, and add a little JQuery when you need JavaScript in the client. But when You want to write a single page application (SPA), it’s just not good enough.
 
 In this blog post I will explain how to create a SPA application with Rails and Angular 2+. I will do it with the new [Webpacker](https://github.com/Rails/webpacker) gem.
 Because I use bleeding edge technologies, it may improve and become more smooth in the future, so stay tuned.
 
-## First A little history
+## First some history
 
-The firsts Rails version didn’t have any unique feature for running JavaScript in the browser. When JavaScript had become a key player in web development, Rails introduced the “Asset pipeline”.  
+The firsts Rails versions didn’t have any unique feature for running JavaScript in the browser. When JavaScript had become a key player in web development, Rails introduced the “Asset pipeline”.  
 The asset pipeline through the ‘sprockets-rails’ gem provides a framework to concatenate and minify or compress JavaScript and CSS assets. It enabled using a lot of JavaScript files much easier. For instance, to creating an Rails + Angular1 SPA.  
 But the JavaScript world had evolved and minifying and concentrate JavaScript files is not enough.   
 In order to use features of ES6+ or TypeScript we need to use a compiler (or transpiler). The same goes for features like hot reloading and more. The Asset Pipeline could not provide it (although there are efforts to enable it).  
-There are few ways that I can create a web application with modern JavaScript library (React, Angular2+, Vue):
+There are few ways that I can use Rails with modern JavaScript library (React, Angular2+, Vue):
 - Run Rails as API, and call it from JavaScript files that is serving from different place. The biggest disadvantage is that it is not served from the same server. The deployment is harder. I cannot use Rails session for CSRF, I cannot use Devise out of the box, I cannot add Rails variables to my page and so on.
 - The second option is to use  to build the JavaScript artifacts (using Angular-cli, or webpack), and put it in the Rails public folder. This way I can serve the JavaScript through the same server. It can work but it is not convenient, because I lose features like hot reloading,
 - Luckily there is a third option. Use Railes official gem [Webpacker](https://github.com/Rails/webpacker).
@@ -26,15 +26,16 @@ Webpacker makes it easy to use the JavaScript pre-processor and bundler webpack 
 However, it is possible to use Webpacker for CSS, images and fonts assets as well, in which case you may not even need the asset pipeline. This is mostly relevant when exclusively using component-based JavaScript frameworks.
 
 ### A word about webpack
-webpack is a module bundler for modern JavaScript applications. Webpack builds a dependency graph that includes every module your application needs, then packages all of those modules into one or more bundles.   
+Webpack is a module bundler for modern JavaScript applications. Webpack builds a dependency graph that includes every module your application needs, then packages all of those modules into one or more bundles.   
 Webpack allows use of loaders and plugins for processing and building the files. 
 Webpack is the most popular utility today for this purpose.
 
 ## Rails with Angular 2+
 Although webpacker let you use several JavaScript libraries, I decided to demonstrate Angular 2+ because there are not a lot of material on this subject. React has some proven solutions (such as react-Rails gem).  
+
 After the release of Angular 2+, there was a lot of disappointment in the Angular community (due to the major change)  and many migrated to React. I feel that lately there is a drifting back to angular, and I find it myself quite attractive.
 
-## A step by step tutorial for your first Rails-Angular-Webpacker application
+# A step by step tutorial for your first Rails-Angular-Webpacker application
 We will start by creating a new Rails application with Webpacker and angular. You can do it for React/Vue/Elm as well, and you can add it also to an existing application.
 There are few prerequisites that needs to be installed before:
 - Ruby 2.2.6+
@@ -47,7 +48,7 @@ Rails new webpacker-angular-app --webpack=angular
 ```
 Let's enter the created code and go over the created files and folders:  
 The angular code is placed in *app/javascript* which is a new subfolder in the app folder (in addition to app/asset/javascript).
-In *app/javascript* there are 2 subfolders:
+In *app/javascript* there are two subfolders:
 - packs - contains the modules entry points (this folder can be configured). Webpack will treat these files as entry point, and the result will be bundling the modules.  
 - Hello_angular - an example module (or angular app). Contains the angular code.
 
@@ -55,8 +56,8 @@ The webpacker configuration is placed in the config folder:
 - Webpacker.yml - a config file for webpacker
 - config/webpack - webpack configuration files
 	
-## implement the hello_angular app
-The generated code comes with a sample application called hello_angular, I'll expand and explain howto work with it. The common scenario will be creating one or more apps like this for every application.  
+## Improve the hello_angular app
+The generated code comes with a sample application called hello_angular, I'll expand and explain how to work with it. The common scenario will be creating one or more apps like this for every application.  
 I will start by creating a page that contains the angular application. I will create a controller and a view and place the angular inside:
 ```
 Rails g controller hello_angular index
@@ -127,7 +128,7 @@ Navigate to http://localhost:3000 And you will see the hello_angular app.
 ## Using a different file for html
 One of the things that I like in angular 2+ components is the division of code (ts file), html and style (scss in our example) to different files.
 
-I will start with taking out the template from the app.component.ts, and replace it with templateUrl.   
+I will start with taking out the template from the app.component.ts, into an html file.      
 First we will write our html file app/javascript/hello_angular/app/app.component.html
 ```html
 <h1>Hello {{name}}</h1>
@@ -150,7 +151,7 @@ npm i -D html-loader
 ```
 
 As you can see, webpacker let you add loaders to the configuration without defining a custom module and merge. More details can be found [here](https://github.com/Rails/webpacker/blob/master/docs/webpack.md).  
-To complete this i will add html extension to webpacker.yml:
+To complete this I will add html extension to webpacker.yml:
 ```
 - .html
 ```
@@ -179,8 +180,8 @@ You an read more about it [here](https://www.typescriptlang.org/docs/handbook/mo
 Notice that unlike the Angular-cli, here I’m using “template” instead of “templateUrl”, and serve it as a string.
 
 ## Using a different file for style
-I will do a pretty similar things for the style form. I’ll start by creating a scss file:
-App.component.scss:
+I will do a pretty similar things for the style form. I’ll start by creating a scss file, 
+app.component.scss:
 ```css
 h1 {
   color: red;
