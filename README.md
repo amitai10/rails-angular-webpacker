@@ -344,6 +344,8 @@ The JavaScript development has changed in the last few years. We need utilities 
 Until the introduction of webpacker, Rails didn’t have a clear way of how to combine them. Now we can use them together and enjoy developing in Rails and modern JavaScript framework.  
 It is not smooth yet, and there are still some wiring and configuration that need to be done in order to make it work. I hope that it will be fixed, so it would not be necessary in the future.  
 
+You can find all the code in https://github.com/amitai10/rails-angular-webpacker
+
 Happy coding!
 
 ## References
