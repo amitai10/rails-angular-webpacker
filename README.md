@@ -31,7 +31,7 @@ Webpack allows use of loaders and plugins for processing and building the files.
 Webpack is the most popular utility today for this purpose.
 
 ## Rails with Angular 2+
-Although webpacker let you use several JavaScript libraries, I decided to demonstrate Angular 2+ because there are not a lot of material on this subject. React has some proven solutions (such as react-Rails gem).  
+Although webpacker let you use several JavaScript libraries, I decided to demonstrate Angular 2+ because there is not a lot of material on this subject. React has some proven solutions (such as react-Rails gem).  
 
 After the release of Angular 2+, there was a lot of disappointment in the Angular community (due to the major change)  and many migrated to React. I feel that lately there is a drifting back to angular, and I find it myself quite attractive.
 
@@ -133,7 +133,7 @@ First we will write our html file app/javascript/hello_angular/app/app.component
 ```html
 <h1>Hello {{name}}</h1>
 ```
-There are couple of things that we need to do in-order to allow it. The first is to add html loader to webpack so it will know what to do with the html file. I will do it in config/webpack/environment.js :
+There are couple of things that we need to do in order to allow it. The first is to add html loader to webpack so it will know what to do with the html file. I will do it in config/webpack/environment.js :
 ```js
 const { environment } = require('@Rails/webpacker')
 
@@ -150,7 +150,7 @@ And install the loader:
 npm i -D html-loader
 ```
 
-As you can see, webpacker let you add loaders to the configuration without defining a custom module and merge. More details can be found [here](https://github.com/Rails/webpacker/blob/master/docs/webpack.md).  
+As you can see, webpacker lets you add loaders to the configuration without defining a custom module and merge. More details can be found [here](https://github.com/Rails/webpacker/blob/master/docs/webpack.md).  
 To complete this I will add html extension to webpacker.yml:
 ```
 - .html
@@ -163,7 +163,7 @@ declare module "*.html" {
   export default content
 }
 ```
-And then i will change app/javascript/hello_angular/app/app.component.ts:
+And then I will change app/javascript/hello_angular/app/app.component.ts:
 ```ts
 import { Component } thing in order from '@angular/core';
 import templateString from './app.component.html'
@@ -176,7 +176,7 @@ export class AppComponent {
   name = 'Angular';
 }
 ```
-You an read more about it [here](https://www.typescriptlang.org/docs/handbook/modules.html).  
+You can read more about it [here](https://www.typescriptlang.org/docs/handbook/modules.html).  
 Notice that unlike the Angular-cli, here I’m using “template” instead of “templateUrl”, and serve it as a string.
 
 ## Using a different file for style
